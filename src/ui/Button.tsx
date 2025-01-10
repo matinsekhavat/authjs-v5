@@ -10,6 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-[#145dee] text-white shadow hover:bg-[#145dee]/90",
+        secondary: "bg-white text-black",
       },
       size: {
         default: "h-9 px-4 py-2",
