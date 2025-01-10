@@ -15,6 +15,7 @@ import {
 import { z } from "zod";
 import { LoginSchema } from "@/schema";
 import { Input } from "@/ui/Input";
+import { Button } from "@/ui/Button";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -35,7 +36,7 @@ export default function LoginForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((values) => {
-            console.log(values.email);
+            console.log(values);
           })}
           className="space-y-6"
         >
@@ -53,7 +54,27 @@ export default function LoginForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              name="password"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
+          <Button type="submit" className="w-full">
+            submit
+          </Button>
         </form>
       </Form>
     </CardWrapper>
