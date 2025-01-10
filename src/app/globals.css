@@ -11,4 +11,7 @@ body,
   .text-balance {
     text-wrap: balance;
   }
+  .radial-sky {
+    @apply bg-[radial-gradient(ellipse_at_top,_#38bdf8,_#1e3a8a)];
+  }
 }

@@ -11,7 +11,7 @@ async function Home() {
   return (
     <main
       className={cn(
-        "flex h-full flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_#38bdf8,_#1e3a8a)]",
+        "flex h-full flex-col items-center justify-center radial-sky",
         font.className
       )}
     >
