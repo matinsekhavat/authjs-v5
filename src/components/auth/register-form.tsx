@@ -18,9 +18,9 @@ import { Input } from "@/ui/Input";
 import { Button } from "@/ui/Button";
 // import { FormError } from "../form-error";
 // import { FormSuccess } from "../form-success";
-import { login } from "@/actions/login";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { register } from "@/actions/register";
 
 export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
@@ -39,7 +39,7 @@ export default function RegisterForm() {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      const res = await login(values);
+      const res = await register(values);
       setError(res?.error as string);
       setSuccess(res?.success as string);
     });
