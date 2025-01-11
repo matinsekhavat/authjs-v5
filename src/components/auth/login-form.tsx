@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useTransition } from "react";
 import { CardWrapper } from "./card-wrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,8 +16,16 @@ import { z } from "zod";
 import { LoginSchema } from "@/schema";
 import { Input } from "@/ui/Input";
 import { Button } from "@/ui/Button";
+// import { FormError } from "../form-error";
+// import { FormSuccess } from "../form-success";
+import { login } from "@/actions/login";
+import { FormError } from "../form-error";
+import { FormSuccess } from "../form-success";
 
 export default function LoginForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -25,6 +33,16 @@ export default function LoginForm() {
       password: "",
     },
   });
+
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+    setError("");
+    setSuccess("");
+    startTransition(async () => {
+      const res = await login(values);
+      setError(res?.error as string);
+      setSuccess(res?.success as string);
+    });
+  };
 
   return (
     <CardWrapper
@@ -34,12 +52,7 @@ export default function LoginForm() {
       showSocial
     >
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit((values) => {
-            console.log(values);
-          })}
-          className="space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -48,7 +61,11 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="ex: matin@example.com" />
+                    <Input
+                      {...field}
+                      placeholder="ex: matin@example.com"
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,6 +81,7 @@ export default function LoginForm() {
                     <Input
                       type="password"
                       placeholder="Enter your password"
+                      disabled={isPending}
                       {...field}
                     />
                   </FormControl>
@@ -72,7 +90,9 @@ export default function LoginForm() {
               )}
             />
           </div>
-          <Button type="submit" className="w-full">
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button type="submit" className="w-full" disabled={isPending}>
             submit
           </Button>
         </form>
