@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/ui/Form";
 import { z } from "zod";
-import { LoginSchema } from "@/schema";
+import { RegisterSchema } from "@/schema";
 import { Input } from "@/ui/Input";
 import { Button } from "@/ui/Button";
 // import { FormError } from "../form-error";
@@ -22,19 +22,20 @@ import { login } from "@/actions/login";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
     startTransition(async () => {
@@ -46,14 +47,31 @@ export default function LoginForm() {
 
   return (
     <CardWrapper
-      headerLabel="Welcome Back!"
-      backButtonLabel="Don't have an account?"
-      backButtonHref="/auth/register"
+      headerLabel="Create an Account"
+      backButtonLabel="Already have an acount?"
+      backButtonHref="/auth/login"
       showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>name</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="ex: matin"
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />{" "}
             <FormField
               control={form.control}
               name="email"
