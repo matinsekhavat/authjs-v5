@@ -23,7 +23,7 @@ export const {
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
 
-      token.role = existingUser.role as string;
+      token.role = existingUser.role as "ADMIN" | "USER";
       return token;
     },
     session: async ({ session, token }) => {
