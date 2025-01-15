@@ -36,6 +36,16 @@ export const {
       return session;
     },
   },
+  events: {
+    linkAccount: async ({ user }) => {
+      await db.user.update({
+        where: { id: user.id },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
 });
 
 // token is sync with jwt and session
