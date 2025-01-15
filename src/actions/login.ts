@@ -31,3 +31,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
   return { success: "Email Sent!" };
 };
+
+export const logWithSocial = async (provider: string) => {
+  await signIn(provider);
+};
