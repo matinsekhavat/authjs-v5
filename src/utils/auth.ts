@@ -46,6 +46,10 @@ export const {
       });
     },
   },
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error", // for when we have error like 2 same email in 2 different providers
+  },
 });
 
 // token is sync with jwt and session
