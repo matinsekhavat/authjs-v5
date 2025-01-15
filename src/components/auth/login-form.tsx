@@ -39,6 +39,7 @@ export default function LoginForm() {
     setSuccess("");
     startTransition(async () => {
       const res = await login(values);
+
       setError(res?.error as string);
       setSuccess(res?.success as string);
     });

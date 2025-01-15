@@ -1,10 +1,21 @@
 import React from "react";
-import { auth } from "../../../utils/auth";
+import { auth, signOut } from "../../../utils/auth";
 
 async function page() {
   const session = await auth();
-  console.log("a    ww", session);
-  return <div>page</div>;
+  return (
+    <div>
+      {JSON.stringify(session)}
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+  );
 }
 
 export default page;
